@@ -1,0 +1,57 @@
+<!-- quiz.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter Force Quiz</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Counter Force in Physics</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Counter Force</a></li>
+                <li><a href="newtons-laws.html">Newton's Laws</a></li>
+                <li><a href="examples.html">Examples</a></li>
+                <li><a href="applications.html">Applications</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="game.html">Game</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Take the Quiz</h2>
+            <div id="quiz">
+                <div class="question">
+                    <p>1. What law describes counter forces?</p>
+                    <label><input type="radio" name="q1" value="a"> Newton's First Law</label><br>
+                    <label><input type="radio" name="q1" value="b"> Newton's Second Law</label><br>
+                    <label><input type="radio" name="q1" value="c"> Newton's Third Law</label><br>
+                </div>
+                <div class="question">
+                    <p>2. When a person jumps off a boat, the boat moves in the opposite direction due to?</p>
+                    <label><input type="radio" name="q2" value="a"> Gravity</label><br>
+                    <label><input type="radio" name="q2" value="b"> Counter Force</label><br>
+                    <label><input type="radio" name="q2" value="c"> Friction</label><br>
+                </div>
+                <div class="question">
+                    <p>3. Are action and reaction forces equal in magnitude?</p>
+                    <label><input type="radio" name="q3" value="a"> Yes</label><br>
+                    <label><input type="radio" name="q3" value="b"> No</label><br>
+                    <label><input type="radio" name="q3" value="c"> Sometimes</label><br>
+                </div>
+                <button onclick="checkQuiz()">Submit Quiz</button>
+            </div>
+            <div id="result"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 Counter Force Physics. All rights reserved.</p>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!-- game.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter Force Game</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Counter Force in Physics</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Counter Force</a></li>
+                <li><a href="newtons-laws.html">Newton's Laws</a></li>
+                <li><a href="examples.html">Examples</a></li>
+                <li><a href="applications.html">Applications</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="game.html">Game</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>Balance the Forces Game</h2>
+            <p>Use the slider to apply a counter force to balance the action force. Goal: Make the net force zero.</p>
+            <canvas id="gameCanvas" width="400" height="200"></canvas>
+            <br>
+            <label for="counterForceSlider">Counter Force: <span id="counterValue">0</span> N</label>
+            <input type="range" id="counterForceSlider" min="-100" max="100" value="0" oninput="updateCounterValue()">
+            <button onclick="startGame()">Start/Reset</button>
+            <div id="gameResult"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2026 Counter Force Physics. All rights reserved.</p>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+</html>
