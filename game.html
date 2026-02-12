@@ -1,4 +1,4 @@
-<!-- game.html (updated with detailed instructions) -->
+<!-- game.html (enhanced with better game mechanics and instructions) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +16,15 @@
         #gameResult {
             font-size: 18px;
             margin-top: 10px;
+        }
+        #score {
+            font-size: 20px;
+            color: #007bff;
+            margin-top: 10px;
+        }
+        #timer {
+            font-size: 16px;
+            color: #ff8800;
         }
     </style>
 </head>
@@ -36,27 +45,27 @@
     </header>
     <main>
         <section>
-            <h2>Balance the Forces Game</h2>
+            <h2>Balance the Forces Challenge</h2>
             <div class="instructions">
-                <h3>How to Play:</h3>
+                <h3>How to Play This Physics Game:</h3>
                 <ol>
-                    <li>The game starts automatically with a <strong>random Action Force</strong> (blue bar).</li>
-                    <li>Use the <strong>slider</strong> below to set the <strong>Counter Force</strong> (red bar).</li>
-                    <li>Watch the <strong>canvas visualization</strong>:<br>
-                        - Bars extend <strong>right</strong> for positive forces, <strong>left</strong> for negative.<br>
-                        - <strong>Net Force</strong> (bottom bar): Orange if unbalanced, green when zero.</li>
-                    <li><strong>Goal:</strong> Adjust the slider so Counter Force = <em>negative</em> of Action Force.<br>
-                        Make Net Force = 0 N to win!</li>
-                    <li>Click <strong>Start/Reset</strong> for a new challenge.</li>
+                    <li>Click <strong>Start Game</strong> to begin. A <strong>random Action Force</strong> will push the ball (representing an object in motion).</li>
+                    <li>Use the <strong>slider or arrow keys</strong> to adjust the <strong>Counter Force</strong> (reaction force) in real-time.</li>
+                    <li><strong>Goal:</strong> Keep the ball centered on the platform by balancing forces (Net Force ≈ 0). The ball moves based on net force!</li>
+                    <li>Earn <strong>points</strong> for every second you keep it balanced. If the ball falls off (position > ±150), game over.</li>
+                    <li>Levels increase: Action force changes every 10 seconds for added challenge.</li>
+                    <li>Learn: This simulates Newton's Third Law – counter forces keep things stable!</li>
                 </ol>
             </div>
-            <canvas id="gameCanvas" width="500" height="220"></canvas>
+            <canvas id="gameCanvas" width="500" height="300"></canvas>
             <br><br>
             <label for="counterForceSlider"><strong>Counter Force:</strong> <span id="counterValue">0</span> N</label>
             <br>
             <input type="range" id="counterForceSlider" min="-100" max="100" value="0" step="1" style="width: 400px;">
             <br><br>
-            <button onclick="startGame()">Start/Reset New Game</button>
+            <button id="startButton" onclick="startGame()">Start Game</button>
+            <div id="timer">Time: 0s</div>
+            <div id="score">Score: 0</div>
             <div id="gameResult"></div>
         </section>
     </main>
@@ -65,7 +74,7 @@
     </footer>
     <script src="js/script.js"></script>
     <script>
-        window.addEventListener('load', startGame);
+        window.addEventListener('load', initGameListeners);
     </script>
 </body>
 </html>

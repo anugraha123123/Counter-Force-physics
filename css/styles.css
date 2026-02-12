@@ -1,4 +1,4 @@
-/* css/styles.css (minor update for better game support) */
+/* css/styles.css (updated for new game elements) */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -82,4 +82,18 @@ footer {
     background-color: #f9f9f9;
     display: block;
     margin: 0 auto;
+}
+
+button#startButton {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+button#startButton:hover {
+    background-color: #218838;
 }
