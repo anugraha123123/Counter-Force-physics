@@ -1,4 +1,4 @@
-/* css/styles.css */
+/* css/styles.css (updated) */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -49,9 +49,7 @@ footer {
     color: white;
     text-align: center;
     padding: 10px;
-    position: fixed;
     width: 100%;
-    bottom: 0;
 }
 
 #quiz .question {
