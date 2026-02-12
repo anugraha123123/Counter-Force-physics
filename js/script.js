@@ -1,4 +1,4 @@
-// js/script.js (enhanced with dynamic simulation, animation, scoring, timer, levels, keyboard input)
+// js/script.js (updated: removed slider dependency, now fully keyboard-controlled; added friction for better gameplay)
 let actionForce = 0;
 let counterForce = 0;
 let ctx;
@@ -8,15 +8,17 @@ let score = 0;
 let time = 0;
 let gameInterval;
 let levelInterval;
+let timerInterval;
 let isGameRunning = false;
 
 function updateCounterValue() {
-    counterForce = parseInt(document.getElementById('counterForceSlider').value);
     document.getElementById('counterValue').textContent = counterForce;
 }
 
 function startGame() {
-    if (isGameRunning) return;
+    if (isGameRunning) {
+        endGame();
+    }
     isGameRunning = true;
     actionForce = Math.floor(Math.random() * 201) - 100; // -100 to 100
     counterForce = 0;
@@ -24,8 +26,7 @@ function startGame() {
     velocity = 0;
     score = 0;
     time = 0;
-    document.getElementById('counterForceSlider').value = 0;
-    document.getElementById('counterValue').textContent = 0;
+    updateCounterValue();
     document.getElementById('gameResult').innerHTML = '';
     document.getElementById('score').innerHTML = 'Score: 0';
     document.getElementById('timer').innerHTML = 'Time: 0s';
@@ -35,13 +36,13 @@ function startGame() {
     
     gameInterval = setInterval(gameLoop, 16); // ~60 FPS
     levelInterval = setInterval(changeActionForce, 10000); // Change force every 10s
-    setInterval(updateTimer, 1000); // Update time/score every second
+    timerInterval = setInterval(updateTimer, 1000); // Update time/score every second
 }
 
 function gameLoop() {
-    updateCounterValue(); // Allow slider changes
     const netForce = actionForce + counterForce;
-    velocity += netForce * 0.001; // Simple physics: acceleration = netForce / mass (mass=1000 assumed)
+    velocity += netForce * 0.001; // Acceleration = netForce / mass (mass=1000)
+    velocity *= 0.98; // Friction damping for more realistic/stabilizable motion
     ballPosition += velocity;
     
     if (ballPosition < 100 || ballPosition > 400) { // Off platform edges
@@ -65,12 +66,12 @@ function drawGame() {
     ctx.arc(ballPosition, 190, 10, 0, Math.PI * 2);
     ctx.fill();
     
-    // Force arrows
+    // Force arrows (fixed for proper direction)
     ctx.strokeStyle = '#007bff';
     ctx.lineWidth = 2;
-    drawArrow(250 - 100, 100, 250 + (actionForce > 0 ? actionForce : -actionForce), 100, actionForce > 0); // Action
+    drawArrow(250, 100, actionForce); // Action
     ctx.strokeStyle = '#ff8800';
-    drawArrow(250 - 100, 120, 250 + (counterForce > 0 ? counterForce : -counterForce), 120, counterForce > 0); // Counter
+    drawArrow(250, 120, counterForce); // Counter
     
     // Labels
     ctx.fillStyle = '#000';
@@ -81,21 +82,32 @@ function drawGame() {
     ctx.fillText(`Keep the ball on the platform!`, 150, 250);
 }
 
-function drawArrow(fromX, fromY, toX, toY, right) {
+function drawArrow(centerX, y, force) {
+    const scale = 0.5; // Scale arrow length
+    const absForce = Math.abs(force);
+    const arrowLength = absForce * scale;
+    let fromX, toX;
+    if (force >= 0) {
+        fromX = centerX - arrowLength / 2;
+        toX = centerX + arrowLength / 2;
+    } else {
+        fromX = centerX + arrowLength / 2;
+        toX = centerX - arrowLength / 2;
+    }
     ctx.beginPath();
-    ctx.moveTo(fromX, fromY);
-    ctx.lineTo(toX, toY);
+    ctx.moveTo(fromX, y);
+    ctx.lineTo(toX, y);
     ctx.stroke();
     // Arrowhead
     const headLen = 10;
     const dx = toX - fromX;
-    const dy = toY - fromY;
+    const dy = 0; // Horizontal
     const angle = Math.atan2(dy, dx);
     ctx.beginPath();
-    ctx.moveTo(toX, toY);
-    ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI / 6), toY - headLen * Math.sin(angle - Math.PI / 6));
-    ctx.moveTo(toX, toY);
-    ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI / 6), toY - headLen * Math.sin(angle + Math.PI / 6));
+    ctx.moveTo(toX, y);
+    ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI / 6), y - headLen * Math.sin(angle - Math.PI / 6));
+    ctx.moveTo(toX, y);
+    ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI / 6), y - headLen * Math.sin(angle + Math.PI / 6));
     ctx.stroke();
 }
 
@@ -116,19 +128,20 @@ function changeActionForce() {
 function endGame() {
     clearInterval(gameInterval);
     clearInterval(levelInterval);
+    clearInterval(timerInterval);
     isGameRunning = false;
     document.getElementById('gameResult').innerHTML = `<strong style="color: red;">Game Over! Final Score: ${score}</strong>`;
     document.getElementById('startButton').textContent = 'Start Game';
 }
 
 function initGameListeners() {
-    // Keyboard controls for slider
+    // Keyboard controls for counter force
     document.addEventListener('keydown', (e) => {
-        const slider = document.getElementById('counterForceSlider');
+        if (!isGameRunning) return;
         if (e.key === 'ArrowLeft') {
-            slider.value = parseInt(slider.value) - 1;
+            counterForce = Math.max(counterForce - 1, -100);
         } else if (e.key === 'ArrowRight') {
-            slider.value = parseInt(slider.value) + 1;
+            counterForce = Math.min(counterForce + 1, 100);
         }
         updateCounterValue();
     });

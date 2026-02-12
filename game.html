@@ -1,4 +1,4 @@
-<!-- game.html (enhanced with better game mechanics and instructions) -->
+<!-- game.html (updated: removed slider, now keyboard-only controls for more "game-like" feel) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,21 +49,19 @@
             <div class="instructions">
                 <h3>How to Play This Physics Game:</h3>
                 <ol>
-                    <li>Click <strong>Start Game</strong> to begin. A <strong>random Action Force</strong> will push the ball (representing an object in motion).</li>
-                    <li>Use the <strong>slider or arrow keys</strong> to adjust the <strong>Counter Force</strong> (reaction force) in real-time.</li>
+                    <li>The game starts automatically! A <strong>random Action Force</strong> will push the ball (representing an object in motion).</li>
+                    <li>Use the <strong>arrow keys</strong> (Left/Right) to adjust the <strong>Counter Force</strong> (reaction force) in real-time. Left decreases, Right increases.</li>
                     <li><strong>Goal:</strong> Keep the ball centered on the platform by balancing forces (Net Force ≈ 0). The ball moves based on net force!</li>
-                    <li>Earn <strong>points</strong> for every second you keep it balanced. If the ball falls off (position > ±150), game over.</li>
+                    <li>Earn <strong>points</strong> for every second you keep it balanced. If the ball falls off, game over.</li>
                     <li>Levels increase: Action force changes every 10 seconds for added challenge.</li>
                     <li>Learn: This simulates Newton's Third Law – counter forces keep things stable!</li>
                 </ol>
             </div>
             <canvas id="gameCanvas" width="500" height="300"></canvas>
             <br><br>
-            <label for="counterForceSlider"><strong>Counter Force:</strong> <span id="counterValue">0</span> N</label>
+            <div><strong>Counter Force:</strong> <span id="counterValue">0</span> N (Use ←/→ arrows to adjust)</div>
             <br>
-            <input type="range" id="counterForceSlider" min="-100" max="100" value="0" step="1" style="width: 400px;">
-            <br><br>
-            <button id="startButton" onclick="startGame()">Start Game</button>
+            <button id="startButton" onclick="startGame()">Reset Game</button>
             <div id="timer">Time: 0s</div>
             <div id="score">Score: 0</div>
             <div id="gameResult"></div>
@@ -74,7 +72,10 @@
     </footer>
     <script src="js/script.js"></script>
     <script>
-        window.addEventListener('load', initGameListeners);
+        window.addEventListener('load', () => {
+            initGameListeners();
+            startGame(); // Auto-start on load
+        });
     </script>
 </body>
 </html>
